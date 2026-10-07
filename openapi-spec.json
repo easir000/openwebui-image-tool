@@ -1,0 +1,96 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Image Generation Tool",
+        "version": "1.0.0",
+        "description": "A secure tool to generate images from text prompts via an internal OpenAPI server."
+    },
+    "servers": [
+        {
+            "url": "http://tool-server:8000",
+            "description": "Docker internal network (Use http://localhost:8000 if testing outside Docker)"
+        }
+    ],
+    "paths": {
+        "/generate": {
+            "post": {
+                "summary": "Generate an image from a text prompt",
+                "operationId": "generateImage",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "prompt": {
+                                        "type": "string",
+                                        "description": "The text description of the image to generate."
+                                    },
+                                    "size": {
+                                        "type": "string",
+                                        "enum": [
+                                            "512x512",
+                                            "1024x1024"
+                                        ],
+                                        "default": "512x512",
+                                        "description": "Resolution of the generated image."
+                                    }
+                                },
+                                "required": [
+                                    "prompt"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful image generation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "prompt": {
+                                            "type": "string"
+                                        },
+                                        "image_url": {
+                                            "type": "string",
+                                            "description": "Direct URL to the generated image"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized - Invalid or missing API key"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "x-api-key",
+                "description": "Secret API key required to access the image generation tool."
+            }
+        }
+    }
+}

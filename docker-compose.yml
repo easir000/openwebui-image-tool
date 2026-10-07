@@ -1,0 +1,26 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    environment:
+      - RAG_EMBEDDING_ENGINE=openai
+      - ENABLE_RAG_WEB_SEARCH=false
+    volumes:
+      - open-webui-data:/app/backend/data
+    restart: unless-stopped
+
+  tool-server:
+    build:
+      context: ./tool-server
+      dockerfile: Dockerfile
+    container_name: tool-server
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    restart: unless-stopped
+
+volumes:
+  open-webui-data:
