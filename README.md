@@ -74,4 +74,3 @@ To stop and remove all containers and volumes:
 ```bash
 docker compose down -v
 ```
-```
