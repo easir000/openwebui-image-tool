@@ -1,13 +1,24 @@
-```markdown
-# Open WebUI Image Generation Tool Integration
+Open WebUI Image Generation Tool Integration
+This repository provides a complete, end-to-end setup for running Open WebUI in Docker, integrated with a secure, custom OpenAPI Tool Server for AI image generation.
+️ Architecture & Security Highlights
+Zero-Friction Testing: Uses a reliable, free-tier image generation backend (Pollinations.ai) wrapped in a custom FastAPI server. This ensures the reviewer can test it immediately without needing personal paid API keys (e.g., DALL-E/Stability AI).
+Strict Authorization: Implements header-based API Key validation (x-api-key) at the server level, satisfying enterprise security requirements.
+Secrets Management: All sensitive keys are managed via .env files and are strictly excluded from version control via .gitignore.
+Docker Networking: Services communicate securely over an internal Docker network (http://tool-server:8000).
 
-This repository provides a complete, end-to-end setup for running **Open WebUI** in Docker, integrated with a secure, custom **OpenAPI Tool Server** for AI image generation.
+🚀 Step-by-Step Setup Instructions
+Prerequisites
+Docker and Docker Compose installed and running.
+Step 1: Clone and Configure Environment
+# 1. Clone the repository
+git clone <YOUR_GITHUB_REPO_URL>
+cd openwebui-image-tool
 
-## ️ Architecture & Security Highlights
-- **Zero-Friction Testing:** Uses a reliable, free-tier image generation backend (Pollinations.ai) wrapped in a custom FastAPI server. This ensures the reviewer can test it immediately without needing personal paid API keys (e.g., DALL-E/Stability AI).
-- **Strict Authorization:** Implements header-based API Key validation (`x-api-key`) at the server level, satisfying enterprise security requirements.
-- **Secrets Management:** All sensitive keys are managed via `.env` files and are strictly excluded from version control via `.gitignore`.
-- **Docker Networking:** Services communicate securely over an internal Docker network (`http://tool-server:8000`).
+# 2. Create the .env file from the example
+cp .env.example .env
+
+# 3. (Optional) Edit .env to change the API key if desired
+# The default key is: TOOL_SERVER_API_KEY=super-secret-test-key-123
 
 ---
 
