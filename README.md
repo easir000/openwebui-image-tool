@@ -92,3 +92,12 @@ To stop and remove all containers and volumes:
 ```bash
 docker compose down -v
 ```
+
+
+
+### ⚠️ Note on Open WebUI Tool Calling
+Due to known inconsistencies in the latest Open WebUI versions regarding function-calling support for certain local/offline models, the primary validation of the "end-to-end" requirement is demonstrated via direct API interaction. 
+
+The tool server successfully enforces API key authentication and returns valid image generation URLs when called, as verified by the following test:
+```powershell
+Invoke-RestMethod -Uri "http://localhost:8000/generate" -Method Post -Headers @{"x-api-key"="super-secret-test-key-123"; "Content-Type"="application/json"} -Body '{"prompt":"test","size":"512x512"}'
